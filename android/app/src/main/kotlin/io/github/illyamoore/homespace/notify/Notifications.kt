@@ -1,5 +1,6 @@
 package io.github.illyamoore.homespace.notify
 
+import android.annotation.SuppressLint
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -42,6 +43,10 @@ object Notifications {
             ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
             PackageManager.PERMISSION_GRANTED
 
+    // canPost() is the permission check lint is asking for, but it cannot follow
+    // the call through a helper. The runCatching below also covers the race on
+    // OEM builds where the grant is revoked between the check and the post.
+    @SuppressLint("MissingPermission")
     fun sessionFinished(context: Context, session: Session) {
         if (!canPost(context)) return
 

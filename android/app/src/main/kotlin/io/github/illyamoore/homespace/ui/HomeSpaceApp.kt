@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Terminal
@@ -154,7 +154,7 @@ fun HomeSpaceApp(
                         Icon(Icons.Default.Refresh, contentDescription = "Refresh")
                     }
                     IconButton(onClick = { viewModel.disconnect() }) {
-                        Icon(Icons.Default.Logout, contentDescription = "Disconnect from this NAS")
+                        Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Disconnect from this NAS")
                     }
                 },
             )

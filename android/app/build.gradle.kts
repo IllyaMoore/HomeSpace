@@ -104,6 +104,10 @@ android {
         // hand-rolled project should not fail a release build.
         warningsAsErrors = false
         abortOnError = true
+        // Without this the log prints only the first failure and the rest live
+        // in an HTML artifact — which is useless when you are reading CI output
+        // rather than downloading from it.
+        textReport = true
         disable += setOf("GradleDependency", "AndroidGradlePluginVersion", "ObsoleteLintCustomCheck")
     }
 }

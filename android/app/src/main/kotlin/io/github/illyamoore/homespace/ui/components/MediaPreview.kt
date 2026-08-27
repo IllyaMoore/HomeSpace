@@ -1,5 +1,6 @@
 package io.github.illyamoore.homespace.ui.components
 
+import androidx.annotation.OptIn as AndroidXOptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
@@ -22,7 +23,10 @@ import androidx.media3.ui.PlayerView
  * player fetching its own bytes is not going through the app's OkHttp
  * interceptor chain.
  */
-@OptIn(UnstableApi::class)
+// Media3 marks its evolving surface with @UnstableApi, which is enforced by a
+// lint check rather than by the Kotlin compiler — kotlin.OptIn has no effect on
+// it. androidx.annotation.OptIn is the one that silences UnsafeOptInUsageError.
+@AndroidXOptIn(UnstableApi::class)
 @Composable
 fun MediaPreview(url: String, isAudio: Boolean, modifier: Modifier = Modifier) {
     val context = LocalContext.current
