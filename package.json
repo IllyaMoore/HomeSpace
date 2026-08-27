@@ -1,0 +1,39 @@
+{
+  "name": "homespace",
+  "version": "0.1.0",
+  "description": "Self-hosted control surface for a NAS: browse content, run local Claude Code sessions, and drive code agents from one interface.",
+  "type": "module",
+  "bin": {
+    "homespace": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "web",
+    "config.example.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "start": "node dist/cli.js",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "test:only": "node --test tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IllyaMoore/HomeSpace"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,41 @@
+{
+  "name": "HomeSpace on nas",
+  "dataDir": "/volume1/homespace/data",
+  "server": {
+    "host": "0.0.0.0",
+    "port": 7333,
+    "token": "replace-me-with-the-token-from-homespace-init",
+    "allowedOrigins": []
+  },
+  "roots": [
+    {
+      "id": "media",
+      "label": "Media",
+      "path": "/volume1/media",
+      "workspace": false,
+      "readOnly": true
+    },
+    {
+      "id": "documents",
+      "label": "Documents",
+      "path": "/volume1/documents",
+      "workspace": false,
+      "readOnly": true
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "path": "/volume1/code",
+      "workspace": true,
+      "readOnly": false
+    }
+  ],
+  "claude": {
+    "bin": "claude",
+    "model": null,
+    "permissionMode": "manual",
+    "maxConcurrentSessions": 4,
+    "idleTimeoutMs": 1800000,
+    "transcriptLimit": 2000
+  }
+}
