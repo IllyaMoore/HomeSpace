@@ -134,12 +134,25 @@ certificate works. See [security.md](security.md).
 cd android && ./gradlew testDebugUnitTest
 ```
 
-The suite covers the parts most likely to break against a changing daemon: URL
-building and encoding, auth headers, lenient decoding of every wire type, error
-mapping, SSE frame parsing, and the formatters.
+43 unit tests, covering the parts most likely to break against a changing
+daemon: URL building and encoding, auth headers, lenient decoding of every wire
+type, error mapping, SSE frame parsing, and the formatters.
+
+The client has also been run against a **live daemon** — a real Claude Code
+session, start to result — to confirm every wire type decodes from the JSON the
+server actually emits rather than from hand-written mocks. That check found two
+bugs the unit tests had not: `normalizeBaseUrl` turned a bare `"http://"` into
+`"http://http:"`, and a pasted path was read as a hostname.
 
 There are no Compose UI tests yet, and no instrumented tests — the emulator time
 is not worth it for a UI this thin over a well-tested client.
+
+### What CI has verified
+
+Both workflows are green on this branch. `assembleDebug` produces a ~21 MB APK;
+`assembleRelease` produces ~2.3 MB, so R8 and the kotlinx.serialization keep
+rules in `proguard-rules.pro` are doing their job — without them a minified
+build compiles and then fails to parse anything at runtime.
 
 ## Not built yet
 
