@@ -88,7 +88,7 @@ class HomeSpaceViewModel(application: Application) : AndroidViewModel(applicatio
             )
             runCatching { repository.connect(server) }
                 .onSuccess {
-                    SessionWatchWorker.enqueue(getApplication())
+                    SessionWatchWorker.enqueue(getApplication<Application>())
                     onDone(true)
                 }
                 .onFailure {
@@ -102,7 +102,7 @@ class HomeSpaceViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             runCatching { repository.connect(server) }
                 .onSuccess {
-                    SessionWatchWorker.enqueue(getApplication())
+                    SessionWatchWorker.enqueue(getApplication<Application>())
                     onDone(true)
                 }
                 .onFailure {
@@ -114,7 +114,7 @@ class HomeSpaceViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun disconnect() {
         repository.disconnect()
-        SessionWatchWorker.cancel(getApplication())
+        SessionWatchWorker.cancel(getApplication<Application>())
     }
 
     fun forgetServer(id: String) {
@@ -214,7 +214,7 @@ class HomeSpaceViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun onSessionFinished(session: Session) {
-        Notifications.sessionFinished(getApplication(), session)
+        Notifications.sessionFinished(getApplication<Application>(), session)
     }
 
     companion object {

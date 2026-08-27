@@ -1,6 +1,7 @@
 package io.github.illyamoore.homespace.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -28,12 +29,17 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.illyamoore.homespace.FileActions
 import io.github.illyamoore.homespace.data.ConnectionState
 import io.github.illyamoore.homespace.ui.components.StatusBadge
 import io.github.illyamoore.homespace.ui.screens.AgentsScreen
@@ -73,12 +79,12 @@ fun HomeSpaceApp(
     val restoring by viewModel.restoring.collectAsStateWithLifecycle()
     val toast by viewModel.toasts.collectAsStateWithLifecycle()
 
-    var tab by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(Tab.OVERVIEW) }
+    var tab by rememberSaveable { mutableStateOf(Tab.OVERVIEW) }
     val filesUi = remember { FilesUiState() }
     val sessionsUi = remember { SessionsUiState() }
     val agentsUi = remember { AgentsUiState() }
     val snackbar = remember { SnackbarHostState() }
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
 
     LaunchedEffect(toast) {
         toast?.let {
@@ -200,7 +206,7 @@ fun HomeSpaceApp(
                     state = state,
                     ui = filesUi,
                     onOpenExternally = { url, mime, name, share ->
-                        io.github.illyamoore.homespace.FileActions.open(context, url, mime, name, share)
+                        FileActions.open(context, url, mime, name, share)
                     },
                 )
 
