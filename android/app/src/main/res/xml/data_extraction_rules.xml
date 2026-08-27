@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The DataStore file holds bearer tokens, each equivalent to a shell account on
+  the NAS. Excluding it from cloud backup and device-to-device transfer keeps it
+  from leaving the device it was entered on.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="file" path="datastore/" />
+        <exclude domain="sharedpref" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="datastore/" />
+        <exclude domain="sharedpref" />
+    </device-transfer>
+</data-extraction-rules>

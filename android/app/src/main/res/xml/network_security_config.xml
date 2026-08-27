@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  A HomeSpace daemon speaks plain HTTP on a LAN by default — it has no TLS of
+  its own, and a self-hosted NAS rarely has a publicly trusted certificate.
+  Android blocks cleartext from API 28 onwards, so it has to be permitted here
+  or the app cannot reach the server it exists to talk to.
+
+  `user` is in the trust anchors so an operator who *does* front the daemon
+  with a reverse proxy using their own CA gets a working HTTPS connection
+  instead of a handshake failure.
+
+  The tradeoff is real and documented in docs/security.md: on an untrusted
+  network the bearer token crosses the wire in clear. The app warns about this
+  on the connect screen whenever the address is not https.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

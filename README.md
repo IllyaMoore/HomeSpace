@@ -10,6 +10,9 @@ warm near-black surfaces, a single red accent, a strict text ramp — but the
 code here is its own thing: a dependency-free Node daemon and a no-build
 frontend, sized for a box whose day job is serving files.
 
+Two clients, one API: a web app the daemon serves itself, and a native Android
+app you install on your phone.
+
 ```
 ┌── browser ────────────────┐        ┌── NAS ─────────────────────────────┐
 │  web app (no build step)  │  HTTP  │  homespace daemon (node:http)      │
@@ -18,9 +21,12 @@ frontend, sized for a box whose day job is serving files.
 │  · session terminal       │ ◄───── │   · /api/sessions ─┐               │
 │  · agent control          │  SSE   │   · /api/agents    │               │
 └───────────────────────────┘        │   · /api/events    ▼               │
-                                     │            claude --print          │
-                                     │            (stream-json in/out)    │
-                                     └────────────────────────────────────┘
+┌── Android ────────────────┐        │            claude --print          │
+│  Kotlin + Compose         │ ◄────► │            (stream-json in/out)    │
+│  · the same four screens  │        └────────────────────────────────────┘
+│  · notifies you when an   │
+│    agent finishes         │
+└───────────────────────────┘
 ```
 
 ## What it does
@@ -124,9 +130,24 @@ systemctl --user enable --now homespace
 
 Flags: `--config <path>`, `--host <h>`, `--port <n>`, `--log <level>`.
 
+## The Android app
+
+A native client — Kotlin and Jetpack Compose, not a wrapped web view. Same four
+screens, plus notifications when an agent finishes, ExoPlayer for NAS media, and
+the Android share sheet and download manager.
+
+```sh
+cd android && ./gradlew assembleDebug
+```
+
+CI builds an APK on every push that touches `android/`, and attaches a signed
+one to a draft GitHub Release on a `v*` tag. See [docs/android.md](docs/android.md)
+for the build, the signing secrets, and what is not built yet.
+
 ## Documentation
 
 - [Architecture](docs/architecture.md) — how the pieces fit, and why.
+- [The Android app](docs/android.md) — the native client, its build, and its CI.
 - [HTTP API](docs/api.md) — every endpoint, with request and response shapes.
 - [Security](docs/security.md) — the trust model, and what it does not cover.
 
@@ -144,12 +165,15 @@ editing a view and reloading the page is the whole loop.
 
 ## Status
 
-Alpha, and honest about it. Working and covered by tests: connection and
-pairing, the system snapshot, the file browser (including its sandbox), session
-spawn/prompt/interrupt/stop, the agent registry and lifecycle, and the SSE
-stream. Not built yet: multi-user accounts, TLS termination (put it behind a
-reverse proxy), an approvals queue for `manual` permission mode, and persisting
-transcripts across a daemon restart.
+Alpha, and honest about it. Working and covered by tests on the daemon:
+connection and pairing, the system snapshot, the file browser (including its
+sandbox), session spawn/prompt/interrupt/stop, the agent registry and lifecycle,
+and the SSE stream. The Android client's data layer is covered too, and verified
+against a live daemon rather than only against mocks.
+
+Not built yet: multi-user accounts, TLS termination (put it behind a reverse
+proxy), an approvals queue for `manual` permission mode — which both clients
+need — and persisting transcripts across a daemon restart.
 
 ## License
 

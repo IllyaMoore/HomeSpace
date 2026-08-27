@@ -3,6 +3,16 @@ dist/
 *.tgz
 .DS_Store
 config.json
-data/
+/data/
 *.log
 .env
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/keystore.properties
+*.jks
+*.keystore
+.kotlin/

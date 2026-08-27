@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HomeSpace</string>
+    <string name="notification_channel_sessions">Session activity</string>
+    <string name="notification_channel_sessions_description">Tells you when a Claude Code session or agent on your NAS finishes or fails.</string>
+</resources>
